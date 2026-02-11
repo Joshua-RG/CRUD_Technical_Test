@@ -7,17 +7,14 @@ services:
     container_name: fractal_db
     restart: always
     command: --default-authentication-plugin=mysql_native_password
-    env_file:
-      - .env.docker
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "${DB_LOCAL_PORT}:3306"
     volumes:
       - db_data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - app_network
 
