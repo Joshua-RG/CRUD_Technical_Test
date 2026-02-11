@@ -1,0 +1,65 @@
+### ---------------------------------------------------
+### PASO 1: EL USUARIO ABRE EL MODAL DE PRODUCTOS
+### ---------------------------------------------------
+GET http://localhost:3000/api/products
+
+### ---------------------------------------------------
+### PASO 2: EL USUARIO ENTRA A LA VISTA "MY ORDERS"
+### ---------------------------------------------------
+GET http://localhost:3000/api/orders
+
+### ---------------------------------------------------
+### PASO 3: EL USUARIO CREA UNA NUEVA ORDEN
+### ---------------------------------------------------
+POST http://localhost:3000/api/orders
+Content-Type: application/json
+
+{
+  "orderNumber": "ORD-001",
+  "items": [
+    {
+      "productId": 1,
+      "quantity": 1,
+      "price": 550.00
+    },
+    {
+      "productId": 2,
+      "quantity": 5,
+      "price": 85.00
+    }
+  ]
+}
+
+### ---------------------------------------------------
+### PASO 4: EL USUARIO VE LA ORDEN CREADA EN LA TABLA
+### ---------------------------------------------------
+GET http://localhost:3000/api/orders
+
+### ---------------------------------------------------
+### PASO 5: EL USUARIO LE DA CLICK A "EDITAR"
+### NOTA: El ID tiene que ser igual al creado.
+### ---------------------------------------------------
+GET http://localhost:3000/api/orders/1
+
+### ---------------------------------------------------
+### PASO 6: EL USUARIO MODIFICA LA ORDEN Y GUARDA
+### ---------------------------------------------------
+PUT http://localhost:3000/api/orders/1
+Content-Type: application/json
+
+{
+  "orderNumber": "ORD-001-EDITADO",
+  "status": "InProgress",
+  "items": [
+    {
+      "productId": 1,
+      "quantity": 10,
+      "price": 550.00
+    }
+  ]
+}
+
+### ---------------------------------------------------
+### PASO 7: INTENTO DE ELIMINACION DE ORDEN
+### ---------------------------------------------------
+DELETE http://localhost:3000/api/orders/1
