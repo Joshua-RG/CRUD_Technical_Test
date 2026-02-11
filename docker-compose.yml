@@ -1,22 +1,65 @@
 version: '3.8'
 
 services:
+  # BASE DE DATOS (MySQL)
   db:
     image: mysql:8.0
-    container_name: mysql_fractal
+    container_name: fractal_db
     restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    env_file:
+      - .env.docker
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "${DB_LOCAL_PORT}:3306"
     volumes:
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
       - db_data:/var/lib/mysql
+    networks:
+      - app_network
+
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
       timeout: 20s
       retries: 10
 
+  # BACKEND (API)
+  api:
+    build: ./api
+    container_name: fractal_api
+    restart: always
+    env_file:
+      - .env.docker
+    environment:
+      DB_HOST: db
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      DB_NAME: ${MYSQL_DATABASE}
+      PORT: 3000
+    ports:
+      - "${API_LOCAL_PORT}:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app_network
+
+  # FRONTEND 
+  ui:
+    build: ./ui
+    container_name: fractal_ui
+    restart: always
+    ports:
+      - "${UI_LOCAL_PORT}:3000"
+    networks:
+      - app_network
+
 volumes:
   db_data:
+
+networks:
+  app_network:
+    driver: bridge
