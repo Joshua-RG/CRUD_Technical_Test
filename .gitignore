@@ -1,0 +1,21 @@
+# Dependencias 
+node_modules/
+*/node_modules/
+
+# Variables de entorno 
+.env
+.env.local
+.env.*.local
+
+# Builds de producción
+build/
+dist/
+
+# Logs y sistemas
+*.log
+.DS_Store
+.vscode/
+coverage/
+
+# Docker volumes 
+db_data/
