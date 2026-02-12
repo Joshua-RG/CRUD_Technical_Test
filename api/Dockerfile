@@ -26,9 +26,5 @@ EXPOSE 3000
 
 USER node
 
-# Healthcheck
-HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:3000/ping', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"
-
 # Iniciar la aplicación
 CMD ["npm", "start"]
