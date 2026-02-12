@@ -1,5 +1,7 @@
-CREATE DATABASE IF NOT EXISTS fractal_test;
-USE fractal_test;
+-- CREATE DATABASE IF NOT EXISTS fractal_test;
+-- USE fractal_test;
+
+
 
 -- Catálogo de productos
 CREATE TABLE products (
