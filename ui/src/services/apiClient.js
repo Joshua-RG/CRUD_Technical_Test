@@ -11,6 +11,20 @@ const apiClient = axios.create({
   },
 });
 
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    
+    if (error.response && error.response.data && error.response.data.message) {
+      const err = new Error(error.response.data.message);
+      err.status = error.response.status;
+      return Promise.reject(err);
+    }
+ 
+    return Promise.reject(error);
+  }
+);
+
 // Productos
 export const getProducts = async () => {
   const response = await apiClient.get('/products');

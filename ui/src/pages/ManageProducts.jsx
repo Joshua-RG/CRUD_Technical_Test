@@ -73,14 +73,7 @@ const ManageProducts = () => {
       setError(null);
     } catch (err) {
       const errorMessage = err.message || 'Error desconocido';
-      // Detectar si es el error de producto asociado a orden
-      if (errorMessage.includes('asociado') || errorMessage.includes('siendo utilizado')) {
-        setError(errorMessage);
-      } else if (editingId) {
-        setError('Error al actualizar producto: ' + errorMessage);
-      } else {
-        setError('Error al guardar producto: ' + errorMessage);
-      }
+      setError(errorMessage);
       console.error(err);
     }
   };
@@ -92,12 +85,7 @@ const ManageProducts = () => {
       setDeleteConfirm(null);
     } catch (err) {
       const errorMessage = err.message || 'Error desconocido';
-      // Detectar si es el error de producto asociado a orden
-      if (errorMessage.includes('asociado') || errorMessage.includes('siendo utilizado')) {
-        setError(errorMessage);
-      } else {
-        setError('Error al eliminar producto: ' + errorMessage);
-      }
+      setError(errorMessage);
       console.error(err);
     }
   };
