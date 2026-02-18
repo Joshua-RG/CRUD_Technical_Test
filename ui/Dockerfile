@@ -12,6 +12,9 @@ RUN npm ci
 # Copiar código fuente
 COPY . .
 
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
+
 # Construir aplicación
 RUN npm run build
 
@@ -28,8 +31,8 @@ COPY --from=builder /app/build /usr/share/nginx/html
 EXPOSE 3000
 
 # Healthcheck
-HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
-  CMD wget --quiet --tries=1 --spider http://localhost:3000/health || exit 1
+#HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
+#  CMD wget --quiet --tries=1 --spider http://localhost:3000/health || exit 1
 
 # Iniciar nginx
 CMD ["nginx", "-g", "daemon off;"]

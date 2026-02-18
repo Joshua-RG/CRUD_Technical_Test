@@ -29,13 +29,15 @@ services:
     container_name: fractal_api
     restart: always
     env_file:
-      - .env.docker
+      - .env
     environment:
       DB_HOST: db
       DB_USER: ${MYSQL_USER}
       DB_PASSWORD: ${MYSQL_PASSWORD}
       DB_NAME: ${MYSQL_DATABASE}
       PORT: 3000
+      DB_SSL: "false"
+      FRONTEND_URL: ${FRONTEND_URL}
     ports:
       - "${API_LOCAL_PORT}:3000"
     depends_on:
@@ -46,7 +48,10 @@ services:
 
   # FRONTEND 
   ui:
-    build: ./ui
+    build: 
+      context: ./ui
+      args:
+        REACT_APP_API_URL: ${REACT_APP_API_URL}
     container_name: fractal_ui
     restart: always
     ports:
