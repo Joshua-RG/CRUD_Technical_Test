@@ -51,7 +51,7 @@ export const deleteProduct = async (req, res) => {
     res.json({ message: 'Producto eliminado' });
   } catch (error) {
     if (error.code === 'ER_ROW_IS_REFERENCED_2') {
-        return res.status(400).json({ message: 'No se puede eliminar: El producto está en uso en una orden.' });
+        return res.status(409).json({ message: 'No se puede eliminar este producto porque está asociado a una o más órdenes. El producto no puede ser eliminado mientras esté siendo utilizado en una orden existente.' });
     }
     res.status(500).json({ message: 'Error al eliminar producto' });
   }
